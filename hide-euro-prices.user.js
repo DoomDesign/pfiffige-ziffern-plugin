@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        hide-euro-prices
-// @version     1.1
+// @version     1.2
 // @author      DoomDesign
 // @include     http*://*amazon*/*
 // @description Hides (hopefully) all price elements on amazon
@@ -53,12 +53,8 @@
                                 // additionally find all nodes with a specific class
                                 var classnodes = elm.querySelectorAll("[class*='price'], [class*='prices'], [class*='Price']");
                                 classnodes.forEach(function(value){
-                                    // only if there are no children
-                                    if(!value.children || value.children.length === 0) {
-
                                         value.classList.add('hiddenByScript');
                                         priceElems.push(value);
-                                    }
                                 });
 
                                 // NEW: hide the quick promo iframe completely and don't add it to the revealable elements
