@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        hide-euro-prices
-// @version     1.2
-// @author      DoomDesign
+// @version     1.2.1
+// @author      DoomDesign, HAL2000
 // @include     http*://*amazon*/*
 // @description Hides (hopefully) all price elements on amazon
 // @run-at      document-start
