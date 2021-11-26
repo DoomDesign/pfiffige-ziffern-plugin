@@ -75,6 +75,15 @@
         attributeOldValue: false,
         characterDataOldValue: false
     });
+    
+    /* i couldn't fix this any other way though..... :( */
+    /* Any way I tried to implement this in the MutationObserver failed.  Even things like elm.ownerDocument.getElementById("priceAndPrime") didn't return anything?!? */
+    var pap = document.getElementById ("priceAndPrime");
+    if (pap)
+    {
+        pap.classList.add('hiddenByScript');
+        priceElems.push(pap);
+    }
 
     // create toggle button
     document.addEventListener("DOMContentLoaded", function() {
