@@ -57,10 +57,8 @@
                                         priceElems.push(value);
                                 });
 
-                                // NEW: hide the quick promo iframe completely and don't add it to the revealable elements
-                                elm.querySelectorAll("[id*='hero-quick-promo']").forEach(function(value) {
-                                    value.classList.add('hiddenByScript');
-                                });
+                                // finally keep blocking all iframes to prevent sponsored articles or promotions for related products
+                                document.querySelectorAll('iframe').forEach(iframe => iframe.remove());
                             };
                         }
                     });
