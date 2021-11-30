@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        hide-euro-prices
-// @version     1.2
+// @version     1.3
 // @author      DoomDesign
 // @include     http*://*amazon*/*
 // @description Hides (hopefully) all price elements on amazon
@@ -31,13 +31,16 @@
     new MutationObserver(function(mutations) {
 
         mutations.forEach(function(mutation) {
+
             if ( mutation.type == 'childList' ) {
                 if (mutation.addedNodes.length >= 1) {
                     mutation.addedNodes.forEach(function(elm) {
                         if (elm.nodeName != '#text') {
-                            //find all nodes that contain a certain text
-                            if(typeof elm.querySelectorAll === "function" && elm.querySelectorAll('*').length > 0) {
 
+
+                            if(typeof elm.querySelectorAll === "function") {
+
+                                //find all nodes that contain a certain text
                                 // find all text nodes in elm
                                 var textnodes = textNodesUnder(elm);
                                 // iterate over text node
@@ -57,9 +60,10 @@
                                         priceElems.push(value);
                                 });
 
-                                // NEW: hide the quick promo iframe completely and don't add it to the revealable elements
-                                elm.querySelectorAll("[id*='hero-quick-promo']").forEach(function(value) {
+                                // NEW: hide promo iframe and placement elements completely and don't add it to the revealable elements
+                                document.querySelectorAll("[id*='hero-quick-promo']:not(.hiddenByScript), [data-cel-widget*='placement']:not(.hiddenByScript), [data-ad-details]:not(.hiddenByScript)").forEach(function(value) {
                                     value.classList.add('hiddenByScript');
+                                    value.style.display = 'none';
                                 });
                             };
                         }
