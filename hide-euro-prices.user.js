@@ -16,17 +16,22 @@
     let timeout;
     let pricesHidden = true;
 
+    // Style definition.
+    const customCSS = 'button.showPrices {line-height: 1; padding: 10px; position: fixed; bottom: 1rem; right: 1rem; z-index: 9999; color: #000; background-color: #fff; font-size: 1.5rem; border: 1px solid red; border-radius: 5px;} button.showPrices:active, button.showPrices.active {background-color: red; color: #fff;} button.showPrices > small { display: block;} .hiddenByScript.visibleByScript {visibility: initial !important} .hiddenByScript.visibleByScript::after { opacity: 0; } .hiddenByScript {position: relative;} .hiddenByScript {visibility: hidden !important} /*.hiddenByScript::after {content: \'???\'; visibility: visible; font-weight: bold; font-family: \'Amazon Ember\', Arial, sans-serif; color: #fff; opacity: 1; display: block; position: absolute; top: 0; right: 0; bottom: 0; left: 0; background-color: #000; overflow: hidden; text-align: center;}*/';
+    const addCustomCSS = () => {
+        (document.head || document.documentElement).insertAdjacentHTML(
+            'beforeend',
+            '<style>' + customCSS + '</style>',
+        );
+    };
+
     // see https://stackoverflow.com/a/10730777
     function textNodesUnder(el) {
         let n, a = [],
             walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
         while (n = walk.nextNode()) a.push(n);
         return a;
-    }
-
-    // insert CSS
-    (document.head || document.documentElement).insertAdjacentHTML('beforeend',
-        '<style type=\'text/css\'> button.showPrices {line-height: 1; padding: 10px; position: fixed; bottom: 1rem; right: 1rem; z-index: 9999; color: #000; background-color: #fff; font-size: 1.5rem; border: 1px solid red; border-radius: 5px;} button.showPrices:active, button.showPrices.active {background-color: red; color: #fff;} button.showPrices > small { display: block;} .hiddenByScript.visibleByScript {visibility: initial !important} .hiddenByScript.visibleByScript::after { opacity: 0; } .hiddenByScript {position: relative;} .hiddenByScript {visibility: hidden !important} /*.hiddenByScript::after {content: \'???\'; visibility: visible; font-weight: bold; font-family: \'Amazon Ember\', Arial, sans-serif; color: #fff; opacity: 1; display: block; position: absolute; top: 0; right: 0; bottom: 0; left: 0; background-color: #000; overflow: hidden; text-align: center;}*/ </style>');
+    };
 
     // mutation observer to directly add classes to elements with "price" in class names on page load
     new MutationObserver(function(mutations) {
@@ -86,8 +91,24 @@
         characterDataOldValue: false,
     });
 
-    // create toggle button
-    document.addEventListener('DOMContentLoaded', function() {
+    /* ======  Execution part. ====== */
+
+    // Insert custom CSS.
+    // Workaround: sometimes just document exists without needed children.
+    // Source: https://github.com/greasemonkey/greasemonkey/issues/2996#issuecomment-906608348
+    if (document.head || document.documentElement) addCustomCSS();
+    else {
+        const headMutationObserver = new MutationObserver(() => {
+            if (document.head || document.documentElement) {
+                headMutationObserver.disconnect();
+                addCustomCSS();
+            }
+        });
+        headMutationObserver.observe(document, {childList: true});
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Create toggle button.
         const button = document.createElement('button');
         button.innerHTML = 'Preise anzeigen/ausblenden';
         button.classList.add('showPrices');
