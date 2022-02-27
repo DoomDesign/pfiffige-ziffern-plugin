@@ -19,8 +19,7 @@
     // see https://stackoverflow.com/a/10730777
     function textNodesUnder(el) {
         let n, a = [],
-            walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null,
-                false);
+            walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
         while (n = walk.nextNode()) a.push(n);
         return a;
     }
