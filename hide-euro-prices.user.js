@@ -34,10 +34,10 @@
 
         mutations.forEach(function(mutation) {
 
-            if (mutation.type == 'childList') {
+            if (mutation.type === 'childList') {
                 if (mutation.addedNodes.length >= 1) {
                     mutation.addedNodes.forEach(function(elm) {
-                        if (elm.nodeName != '#text') {
+                        if (elm.nodeName !== '#text') {
 
                             if (typeof elm.querySelectorAll === 'function') {
 
