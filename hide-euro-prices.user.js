@@ -11,14 +11,14 @@
 (function() {
     'use strict';
 
-    var textToSearch = '(EUR|€)';
-    var priceElems = [];
-    var timeout;
-    var pricesHidden = true;
+    const textToSearch = '(EUR|€)';
+    let priceElems = [];
+    let timeout;
+    let pricesHidden = true;
 
     // see https://stackoverflow.com/a/10730777
     function textNodesUnder(el) {
-        var n, a = [],
+        let n, a = [],
             walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null,
                 false);
         while (n = walk.nextNode()) a.push(n);
@@ -43,21 +43,21 @@
 
                                 //find all nodes that contain a certain text
                                 // find all text nodes in elm
-                                var textnodes = textNodesUnder(elm);
+                                const textnodes = textNodesUnder(elm);
                                 // iterate over text node
                                 textnodes.forEach(function(value) {
                                     if (value.nodeType === Node.TEXT_NODE &&
                                         RegExp(textToSearch).
                                             test(value.textContent)) {
                                         /* get parent element of textNode */
-                                        var parent = value.parentNode;
+                                        const parent = value.parentNode;
                                         parent.classList.add('hiddenByScript');
                                         priceElems.push(parent);
                                     }
                                 });
 
                                 // additionally find all nodes with a specific class
-                                var classnodes = elm.querySelectorAll(
+                                const classnodes = elm.querySelectorAll(
                                     '[class*=\'price\'], [class*=\'prices\'], [class*=\'Price\']');
                                 classnodes.forEach(function(value) {
                                     value.classList.add('hiddenByScript');
@@ -89,7 +89,7 @@
 
     // create toggle button
     document.addEventListener('DOMContentLoaded', function() {
-        var button = document.createElement('button');
+        const button = document.createElement('button');
         button.innerHTML = 'Preise anzeigen/ausblenden';
         button.classList.add('showPrices');
         button.onclick = function() {
