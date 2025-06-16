@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        hide-euro-prices
-// @version     1.3
+// @version     1.4
 // @author      DoomDesign
 // @include     http*://*amazon*/*
 // @description Hides (hopefully) all price elements on amazon
@@ -11,7 +11,7 @@
 (function() {
     'use strict';
 
-    var textToSearch = '(EUR|€)';
+    var textToSearch = '(EUR|€|Euro|Euros)';
     var priceElems = [];
     var timeout;
     var pricesHidden = true;
@@ -25,7 +25,7 @@
 
     // insert CSS
     (document.head || document.documentElement).insertAdjacentHTML('beforeend',
-    "<style type='text/css'> button.showPrices {line-height: 1; padding: 10px; position: fixed; bottom: 1rem; right: 1rem; z-index: 9999; color: #000; background-color: #fff; font-size: 1.5rem; border: 1px solid red; border-radius: 5px;} button.showPrices:active, button.showPrices.active {background-color: red; color: #fff;} button.showPrices > small { display: block;} .hiddenByScript.visibleByScript {visibility: initial !important} .hiddenByScript.visibleByScript::after { opacity: 0; } .hiddenByScript {position: relative;} .hiddenByScript {visibility: hidden !important} /*.hiddenByScript::after {content: '???'; visibility: visible; font-weight: bold; font-family: 'Amazon Ember', Arial, sans-serif; color: #fff; opacity: 1; display: block; position: absolute; top: 0; right: 0; bottom: 0; left: 0; background-color: #000; overflow: hidden; text-align: center;}*/ </style>");
+    "<style type='text/css'> button.showPrices {line-height: 1; padding: 10px; position: fixed; bottom: 1rem; right: 1rem; z-index: 9999; color: #000; background-color: #fff; font-size: 1.5rem; border: 1px solid red; border-radius: 5px;} button.showPrices:active, button.showPrices.active {background-color: red; color: #fff;} button.showPrices > small { display: block;} .hiddenByScript.visibleByScript {/*visibility: initial !important;*/ filter: initial !important; } .hiddenByScript.visibleByScript::after { /*opacity: 0;*/ } .hiddenByScript {position: relative;} .hiddenByScript {/*visibility: hidden !important;*/ filter: blur(10px) !important; } /*.hiddenByScript::after {content: '???'; visibility: visible; font-weight: bold; font-family: 'Amazon Ember', Arial, sans-serif; color: #fff; opacity: 1; display: block; position: absolute; top: 0; right: 0; bottom: 0; left: 0; background-color: #000; overflow: hidden; text-align: center;}*/ </style>");
 
     // mutation observer to directly add classes to elements with "price" in class names on page load
     new MutationObserver(function(mutations) {
